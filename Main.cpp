@@ -248,7 +248,7 @@ int main()
 	Car *car_a = dynamic_cast<Car*> (vehicle_lanes.at(i));			// Dynamically casting child Object in Parent vector
 	if (car_a)														// to child vector to access child methods		
 		car_a->random_dimensions();									// Setting random dimensions of car
-	cout << "Car length is: " << car_a->get_length() << " metres" <<  endl;
+	cout << "Car length is: " << car_a->get_length() << " metres" <<  endl; //https://stackoverflow.com/questions/30926577/c-call-a-childs-method-from-a-vector-of-parents
 
 	Van *van_a = dynamic_cast<Van*> (vehicle_lanes.at(i+1));
 	if (van_a)
