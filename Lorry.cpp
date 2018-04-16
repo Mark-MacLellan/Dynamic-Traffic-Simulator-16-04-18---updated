@@ -8,4 +8,3 @@ void Lorry::random_dimensions() {
 	length = (8 + (rand() % (12 - 9)));	// picks random number from the range 12m - 19m
 	height = rand() % 3 + 3;	// picks random number from the range 3m - 5m
 }
-

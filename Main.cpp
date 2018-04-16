@@ -42,14 +42,21 @@ int roadlength(){
 		cout << "\nInvalid number, please try again.\n" << endl;
 	}
 	length = stoi(input);				// cast "input" to integer
+
+	if (length < 0){					// Takes the absolute value entered
+		length = length*(-1);
+	}
+	cout << "\nSuccessful Input\n\n";
 	return length;						// Return length for further programme operations
 }
+
+
 
 int setroadtype(){
 	int myType = 0, mySpeed = 0, myLanes = 0;
 
 	while (myType == 0){
-		cout << "\nSuccessful Input\n\nPlease choose the type of road you wish to define :" << endl;
+		cout << "\nPlease choose the type of road you wish to define :" << endl;
 		cout << " 1. Single track road\n 2. Single carriageway\n 3. Dual carriageway\n 4. Motorway" << endl;
 		getline(cin, input);
 		stringstream myStream(input);
@@ -72,6 +79,7 @@ int setroadtype(){
 			cout << "Sorry, you haven't chosen a suitable value, try again please." << endl;
 		}
 		speed_lim = stoi(input);
+		lanes = 1;
 
 		example_a.setroad_length(length);
 		example_a.getroad_length();
@@ -98,6 +106,7 @@ int setroadtype(){
 			cout << "Sorry, you haven't chosen a suitable value, try again please." << endl;
 		}
 		speed_lim = stoi(input);
+		lanes = 1;
 
 		example_b.setroad_length(length);
 		example_b.getroad_length();
@@ -123,6 +132,7 @@ int setroadtype(){
 			cout << "Sorry, you haven't chosen a suitable value, try again please." << endl;
 		}
 		speed_lim = stoi(input);
+		lanes = 2;
 
 		example_c.setroad_length(length);
 		example_c.getroad_length();
@@ -161,7 +171,7 @@ int setroadtype(){
 		lanes = stoi(input);
 
 		example_d.setroad_length(length);
-		example_c.getroad_length();
+		example_d.getroad_length();
 		example_d.setspeed_limit(speed_lim);
 		example_d.getspeed_limit();
 		example_d.setno_of_lanes(lanes);
@@ -169,7 +179,14 @@ int setroadtype(){
 		example_d.draw_road(length, lanes);			// Calling draw_road function to layout the user defined road
 		cout << endl << endl;
 		_getch();
+
+		break;
+
+	default:
+		cout << "Sorry, you haven't chosen a suitable value, try again please." << endl;
+		setroadtype();
 	}
+	
 
 	if (speed_lim == 20){		//These if statements have been added for later functionality
 		low = 18, high = 22;	//It has been decided that a speed limit set doesn't mean all vehicles will travel at that speed
@@ -192,40 +209,70 @@ int setroadtype(){
 
 	return roadtype;
 }
+void capacity(){
+	int road_cap = (length / (speed_lim + 4))*lanes; //Using the guideline of 1 metre per mph travelling speed to give the safe separation distance, this calculates how many cars the road handles
+	cout << "This road can safely have " << road_cap << " cars travelling at the speed limit of " << speed_lim << " mph at any one time." << endl;
+}
 int main()
 {											// Initialising Road Instances
 
-	int x, y;
-	
+	int x, y, i = 0;
+
 	void bubbleSort(vector<int>& a);
 	void printVector(vector<int> a);
-	
+
 	roadlength();
 	setroadtype();
-	
+	capacity();
+
 	//void bubbleSort(vector<Vehicle>& a);
 	//void printVector(vector<Vehicle> a);
 
-
 	int start_s = clock();
-											// Initialising Vector of pointers of type vehicle. Vector variable name is vehicle_lanes. The only way of having objects from different...
+	// Initialising Vector of pointers of type vehicle. Vector variable name is vehicle_lanes. The only way of having objects from different...
 	vector<Vehicle*> vehicle_lanes;			//  ..classes in the same vector is for each of the intended classes to have the same "parent" class hence creating a "Vehicle" and not a car, van vector etc.
-	
+
 	vehicle_lanes.push_back(new Car);		// Using built in vector "pushback" function to add a new instance to the end of the vector.
 	vehicle_lanes.push_back(new Van);
 	vehicle_lanes.push_back(new Bus);
 	vehicle_lanes.push_back(new Lorry);
 	vehicle_lanes.push_back(new Motorbike);
-	
+
 
 	vehicle_lanes[0]->set_name("Car");		// Using this notation accesses the object indexed at [x] then -> accesses any of the Vehicles methods (but not the indivdual methods unique to each subclass).
 	vehicle_lanes[1]->set_name("Van");		// Here the vehicle name identifiers are set
-	vehicle_lanes[2]->set_name("Bus");		
+	vehicle_lanes[2]->set_name("Bus");
 	vehicle_lanes[3]->set_name("Lorry");
 	vehicle_lanes[4]->set_name("Motorbike");
-	
+
+	Car *car_a = dynamic_cast<Car*> (vehicle_lanes.at(i));			// Dynamically casting child Object in Parent vector
+	if (car_a)														// to child vector to access child methods		
+		car_a->random_dimensions();									// Setting random dimensions of car
+	cout << "Car length is: " << car_a->get_length() << " metres" <<  endl;
+
+	Van *van_a = dynamic_cast<Van*> (vehicle_lanes.at(i+1));
+	if (van_a)
+		van_a->random_dimensions();									// Setting random dimensions of van
+	cout << "Van length is: " << van_a->get_length() << " metres" << endl;
+
+	Bus *bus_a = dynamic_cast<Bus*> (vehicle_lanes.at(i+2));
+	if (bus_a)
+		bus_a->random_dimensions();									// Setting random dimensions of bus
+	cout << "Bus length is: " << bus_a->get_length() << " metres" << endl;
+
+	Lorry *lorry_a = dynamic_cast<Lorry*> (vehicle_lanes.at(i+3));
+	if (lorry_a)
+		lorry_a->random_dimensions();								// Setting random dimensions of lorry
+	cout << "Lorry length is: " << lorry_a->get_length() << " metres" << endl;
+
+	Motorbike *motorbike_a = dynamic_cast<Motorbike*> (vehicle_lanes.at(i+4));
+	if (motorbike_a)
+		motorbike_a->random_dimensions();							// Setting random dimensions of motorbike
+	cout << "Motorbike length is: " << motorbike_a->get_length() << " metres" << endl;
+
+
 	int elapsed_time = 1;					// Set our timer
-	for (int i = 0; i < 10; i++)			// For loop to increment timer
+	for (i = 0; i < length/4; i++)			// For loop to increment timer,	length is length of road, the division by 4 is for 4m of average car length.
 	{	// Here the vehicle speed are set
 		vehicle_lanes[0]->set_max_speed(low + (rand() % (high - low + 1)));	// Using this notation accesses the object indexed 
 		vehicle_lanes[1]->set_max_speed(low + (rand() % (high - low + 1)));	//..at [x] then -> accesses any of the Vehicles methods.. 
@@ -234,37 +281,40 @@ int main()
 		vehicle_lanes[4]->set_max_speed(low + (rand() % (high - low + 1))); //source:https://stackoverflow.com/questions/7560114/random-number-c-in-some-range
 		// This for "vector" loop iterates through the current ("cur")
 		// element in the loop and accesses/ prints out the method/ values for that object
-		
+
 		for (vector<Vehicle*>::iterator cur = vehicle_lanes.begin(); cur != vehicle_lanes.end(); cur++) {
-			
+
 			// Iterator accessing Vehicle Methods for Data
 			cout << "\n" << (*cur)->get_name() << " is travelling at " << (*cur)->get_max_speed() << " mph." << endl;		//The * operator gives the item referenced by the iterator, which is a pointer. Then the -> dereferences that pointer.
-			
+
 			cout << (*cur)->get_name() << " has travelled a further " << (*cur)->grid_loction_(1, start_s) << " units.\n" << endl;
 			// Pause system
 			_getch();
-			
-		}
-		// Interator for sorting vehicle order based on time x speed (distance) after each iteration
 
-		for (vector<Vehicle*>::iterator it = vehicle_lanes.begin(); it != vehicle_lanes.end(); it++) {
-			(*it)->set_total_dist((*it)->total_dist);
-			// Vehicle sort function
-			sort(vehicle_lanes.begin(), vehicle_lanes.end(), CompareVehicleLocation);
-			//cout << (*it)->get_name() << "'s intermediate distance is " << (*it)->intermediate << endl;
-			//cout << (*it)->get_name() << "'s total distance travelled is: " << (*it)->get_ave_speed() << " units." << endl;
-			//cout << (*it)->get_name() << "'s grid location is " <<(*it)->grid_location << endl;
-			
+		}
+		
+		
+		// Interator for sorting vehicle order based on time x speed (distance) after each iteration
+		
+		
+		
+			for (vector<Vehicle*>::iterator it = vehicle_lanes.begin(); it != vehicle_lanes.end(); it++) {
+				(*it)->set_total_dist((*it)->total_dist);
+				// Vehicle sort function
+				sort(vehicle_lanes.begin(), vehicle_lanes.end(), CompareVehicleLocation);
+		
+		
+
 		}
 		elapsed_time++;							// Increasing counter with each loop
 		cout << "\nElapsed Time is: " << elapsed_time << " seconds.\n" << endl;
-		cout << vehicle_lanes[0]->get_name() << "'s total distance travelled is: " << vehicle_lanes[0]->total_dist << endl;		// Using this notation accesses the object indexed at [x] then -> accesses any of the Vehicles methods (but not the indivdual methods unique to each subclass).
-		cout << vehicle_lanes[1]->get_name() << "'s total distance travelled is: " << vehicle_lanes[1]->total_dist << endl;	// Here the vehicle name identifiers are set
-		cout << vehicle_lanes[2]->get_name() << "'s total distance travelled is: " << vehicle_lanes[2]->total_dist << endl;
-		cout << vehicle_lanes[3]->get_name() << "'s total distance travelled is: " << vehicle_lanes[3]->total_dist << endl;
-		cout << vehicle_lanes[4]->get_name() << "'s total distance travelled is: " << vehicle_lanes[4]->total_dist << endl;
+		cout << vehicle_lanes[0]->get_name() << "'s total distance travelled is: " << vehicle_lanes[0]->total_dist << " units." << endl;		// Using this notation accesses the object indexed at [x] then -> accesses any of the Vehicles methods (but not the indivdual methods unique to each subclass).
+		cout << vehicle_lanes[1]->get_name() << "'s total distance travelled is: " << vehicle_lanes[1]->total_dist << " units." << endl;	// Here the vehicle name identifiers are set
+		cout << vehicle_lanes[2]->get_name() << "'s total distance travelled is: " << vehicle_lanes[2]->total_dist << " units." << endl;
+		cout << vehicle_lanes[3]->get_name() << "'s total distance travelled is: " << vehicle_lanes[3]->total_dist << " units." << endl;
+		cout << vehicle_lanes[4]->get_name() << "'s total distance travelled is: " << vehicle_lanes[4]->total_dist << " units." << endl;
 	}
-	
+
 	//delete &vehicle_lanes;					// Deletes dynamic memory allocation
 	system("pause");
 	return 0;

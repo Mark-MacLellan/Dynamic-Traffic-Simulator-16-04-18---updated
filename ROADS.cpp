@@ -10,18 +10,18 @@ using namespace std;
 void ROAD::setno_of_lanes(int x) {
 	no_of_lanes = x;
 	cout << "Number of lanes is " << x << "." << endl;
-	cout << "Road width is " << x*LANES << " meters." << endl;
+	cout << "Road width is " << x*LANES << " metres." << endl;
 }
 
 void ROAD::setspeed_limit(float x) {
 	speed_limit = x;
-	cout << "Speed limit is " << x << " meters per hour." << endl;
+	cout << "Speed limit is " << x << " mph." << endl;
 }
 void ROAD::setroad_length(int x) {
 	road_lenghth = x;
-	cout << "Road is " << x << " meters." << endl;
+	cout << "Road is " << x << " metres long." << endl;
 }
-// Setter methods
+// Getter methods
 int ROAD::getno_of_lanes() {
 	return no_of_lanes;
 }
@@ -111,5 +111,7 @@ void ROAD::draw_road(int length, int lanes)
 		cout << endl;
 	}
 	delete[] a;						// Delete dynamic memory allocation
+	cout << "Now press any key as required to see the position of each vehicle in time," << endl;
 }
+
 

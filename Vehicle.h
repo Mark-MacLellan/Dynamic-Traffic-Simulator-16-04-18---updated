@@ -14,9 +14,10 @@ protected:
 	float acceleration;
 	float breaking_distance;
 	int max_speed;
-				// Determines vehicle position on road
+	// Determines vehicle position on road
 	int queue_position;
-	
+	float sep_dist;
+	float intermediate;
 	string name;
 
 public:
@@ -30,11 +31,12 @@ public:
 	void set_total_dist(float &);
 	void set_name(string);
 	float total_dist = 0;
-	float intermediate;
-	int grid_location;
 	
+	int grid_location;
+	virtual void foo(){} // <- write about this
 
-	int get_grid_location(){ return this->grid_location;  }
+
+	int get_grid_location(){ return this->grid_location; }
 	int get_total_dist() { return this->total_dist; }
 	float get_height();			// Getter methods
 	float get_length();
@@ -44,7 +46,7 @@ public:
 	int get_max_speed();
 	float get_ave_speed();
 	string get_name();
-								// Other
+	// Other
 	int grid_loction_(int stop_s, int start_s);
 
 	bool operator < (const Vehicle& rhs) const
@@ -52,7 +54,7 @@ public:
 		return (this->total_dist < rhs.total_dist);
 	}
 
-	bool operator > (const Vehicle& rhs) const
+	bool operator >(const Vehicle& rhs) const
 	{
 		return !(this->operator<(rhs));
 	}

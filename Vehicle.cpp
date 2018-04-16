@@ -27,7 +27,7 @@ void Vehicle::set_name(string f){
 	name = f;
 }
 void Vehicle::set_total_dist(float &f){
-	
+
 	f += intermediate;
 }
 
@@ -72,6 +72,5 @@ int Vehicle::grid_loction_(int stop_s, int start_s) {				// Other Methods
 bool CompareVehicleLocation(Vehicle* lhs, Vehicle* rhs)
 {								// Returns true if lhs is greater than rhs grid_location
 	return (lhs->get_total_dist() > rhs->get_total_dist());
-	
-}
 
+}

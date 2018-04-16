@@ -33,6 +33,7 @@ public:
 	bool is_pedestrian_crossing(string);
 
 	void draw_road(int length, int lanes);
+	int setroadtype();
 
 	// CONSTRUCTORS AND DESTRUCTORS
 
